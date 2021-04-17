@@ -5,11 +5,18 @@ const mongoose = require('mongoose');
 const User = require('./model/User')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const app = express() 
+const app = express(); 
 app.use('/', express.static(path.join(__dirname, 'static')))
 app.use(bodyParser.json())
 
 const JWT_SECRET = 'wearfhoaskdfjaksldf@#$324wlskjalfkjwealjl32@#@34';
+
+//My Part -------------------------------
+
+const PORT = proccess.env.PORT || 5000;
+app.use(express.static('public'));
+
+//End Code -------------------------------
 
 mongoose.connect('mongodb+srv://geocasher:geocasheriscool@cluster0.k0h9x.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
 {
@@ -110,7 +117,7 @@ app.post('/api/register', async (req, res) => {
 
     res.json({ status: 'ok' })
 })
-
-app.listen(5000, () => {
-    console.log('Server up at 5000')
+//NOTE: I replace the number 5000 with PORT 5000
+app.listen(PORT, () => {
+    console.log(`Server up at ${PORT}`)
 })
