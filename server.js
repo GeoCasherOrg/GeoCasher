@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const app = express() 
 app.use('/', express.static(path.join(__dirname, 'static')))
+app.use(express.static('public'))
 app.use(bodyParser.json())
 
 const JWT_SECRET = 'wearfhoaskdfjaksldf@#$324wlskjalfkjwealjl32@#@34';
@@ -20,37 +21,7 @@ mongoose.connect('mongodb+srv://geocasher:geocasheriscool@cluster0.k0h9x.mongodb
 )
 
 app.post('/api/change-password', async (req, res) => {
-	const { token, newpassword: plainTextPassword } = req.body
-
-	if (!plainTextPassword || typeof plainTextPassword !== 'string') {
-		return res.json({ status: 'error', error: 'Invalid password' })
-	}
-
-	if (plainTextPassword.length < 5) {
-		return res.json({
-			status: 'error',
-			error: 'Password too small. Should be atleast 6 characters'
-		})
-	}
-
-	try {
-		const user = jwt.verify(token, JWT_SECRET)
-
-		const _id = user.id
-
-		const password = await bcrypt.hash(plainTextPassword, 10)
-
-		await User.updateOne(
-			{ _id },
-			{
-				$set: { password }
-			}
-		)
-		res.json({ status: 'ok' })
-	} catch (error) {
-		console.log(error)
-		res.json({ status: 'error', error: ';))' })
-	}
+    const { token, newpassword: plainTextPassword } = req.body
 })
 
 
